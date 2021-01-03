@@ -59,6 +59,7 @@ def signup():
 
         #start session
         del user["password"]
+        del user["_id"]
         session["logged_in"] = True
         session["user"] = user
         
@@ -103,6 +104,7 @@ def login():
 
         if user and pbkdf2_sha256.verify(content['password'], user['password']):
             del user["password"]
+            del user["_id"]
             session["logged_in"] = True
             session["user"] = user
             return jsonify({"result":user}),200
