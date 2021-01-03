@@ -16,9 +16,9 @@ export default function App() {
           <Switch>
             <Route exact path="/login" render={(props) => <Login {...props} />} />
             <Route exact path="/signup" render={(props) => <Signup {...props} />} />
-            <PrivateRoute path="/predict" component={NLPInterface} />
+            <PrivateRoute exact path="/predict" component={NLPInterface} />
             {/* <Route path="/" render={(props) => <Home {...props} />} /> */}
-            <Route path="/" render={(props) => <NLPInterface {...props} />} />
+            <Route path="/" render={(props) => <Home {...props} />} />
           </Switch>
     </Layout>
     </Router>  

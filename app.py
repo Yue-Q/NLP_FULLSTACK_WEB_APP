@@ -12,7 +12,7 @@ app.secret_key = b'\x8a\xb4X\x87\x9d\xbd8\xb8Z \xae+2\x19\x8f\xa9'
 
 #Database
 try:       
-    client = pymongo.MongoClient("mongodb+srv://echoMongodbUser:8f4TJJ1KsgXnFxff@cluster0.j9nsn.mongodb.net/test?retryWrites=true&w=majority")
+    client = pymongo.MongoClient("mongodb+srv://singularitysystemUser:singularitysystem@cluster0.j9nsn.mongodb.net/test?retryWrites=true&w=majority")
     db = client.NLPApp
 except:
     print("ERROR- Cannot connect to DB.")
