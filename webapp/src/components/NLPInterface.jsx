@@ -11,7 +11,10 @@ export default class NLPInterface extends React.Component {
   state = { 
     // Initially, no file is selected 
     selectedFile: null,
-    selectedFileContent: null
+    selectedFileContent: null,
+    prediction: null,
+    loading: false,
+    error: false
   }; 
 
   // On file select (from the pop up) 
@@ -59,20 +62,12 @@ export default class NLPInterface extends React.Component {
           <div> 
             <h2>File Details:</h2> 
             <p><strong>File Name:</strong> {this.state.selectedFile.name}</p> 
-            <p><strong>File Type:</strong> {this.state.selectedFile.type}</p> 
             <p><strong>File content:</strong><br />
             {this.state.selectedFileContent}</p>
             
           </div> 
         ); 
-      } else { 
-        return ( 
-          <div> 
-            <br /> 
-            <h4>Choose before Pressing the Upload button</h4> 
-          </div> 
-        ); 
-      } 
+      }
     }; 
 
 
@@ -95,57 +90,42 @@ export default class NLPInterface extends React.Component {
   //   if (count < this.MIN_WORDS) return `You have to write ${this.MIN_WORDS - count} more words`
   //   if (count >= this.MIN_WORDS) return `You can write up to ${this.MAX_WORDS - count} more words`
   // }
-  // predict = () => {
-  //   if (this.MAX_WORDS - this.state.text.split(/\s/).length < 0) return;
+  predict = () => {
+    this.setState({ loading: true, prediction: null });
 
-  //   this.setState({ loading: true, prediction: null });
+    fetch("/predict", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(this.state.selectedFileContent)
+    })
+      .then(response => response.json())
+      .then(({ prediction }) => {
+        this.setState({ loading: false, prediction })
+      })
+      .catch(error => this.setState({ loading: false, error: true }))
 
-  //   fetch("/predict", {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify(this.state.text)
-  //   })
-  //     .then(response => response.json())
-  //     .then(({ original, pos_tagged, preprocessed, prediction }) => {
-  //       this.setState({ loading: false, prediction, original, pos_tagged, preprocessed })
-  //     })
-  //     .catch(error => this.setState({ loading: false, error: true }))
-
-  // }
+  }
 
   render() {
     return (
       <Container component="main" maxWidth="xs">
-        <Button variant="contained" style={{marginTop:"5px"}}><Link href="/profile">Profile</Link></Button>
+        
+        <h1><Link href="/profile">Welcome!</Link></h1>
         <h1>NLP Fake News Classifier</h1>
-        <div> 
-                <Button
-                  variant="contained"
-                  component="label"
-                >
-                  Upload File
-                  <input
-                    type="file"
-                    hidden
-                    onChange={this.onFileChange}
-                  />
-                </Button>
-                 
-        </div> 
-        {this.fileData()} 
-       
-
-        <Button variant="outlined" onClick={() => alert("Coming soon!")}> Predict </Button>
-
+        <h3>Step 1. Upload your text file:</h3>
+          <Button variant="contained" component="label" color="primary" style={{marginRight:"10px", marginBottom: "10px"}}>Upload File
+            <input type="file" hidden onChange={this.onFileChange}/>
+          </Button>
+        
+        {this.fileData()}
+        <h3>Step 2. Predict:</h3>
+          <Button variant="contained" color="primary" onClick={() => alert("Coming soon!")}> Predict </Button>
+    
         {this.state.loading ? <h1>Classifying ...</h1> : ''}
-
         {this.state.error ? <h1>ERROR</h1> : ''}
-
-        <h1 className={this.state.prediction}>
-          {this.state.prediction}
-        </h1>
+        <h1>{this.state.prediction}</h1>
       </Container>
     )
     }
