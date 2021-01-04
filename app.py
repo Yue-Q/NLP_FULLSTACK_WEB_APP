@@ -126,7 +126,7 @@ def resetPassword():
         content = request.json
         newPassword = pbkdf2_sha256.hash(content["password"])
         res = db.users.update_one(
-            {"userName": content['userName']},
+            {"userName": session['user']['userName']},
             {"$set":{"password": newPassword}}
         )
         if res.modified_count == 1:
