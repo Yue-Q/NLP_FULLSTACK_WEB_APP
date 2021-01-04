@@ -112,17 +112,17 @@ and run `python app.py` then visit http://localhost:5000 you will find the app u
 
 ## Illustration
 1. The home page
-![Home Page](imgs/home.png)
+<img src="imgs/home.png">
 
 2. Sign up page
-![Signup Page](imgs/signup.png)
+<img src="imgs/signup.png">
 
 3. Log in page
-![login Page](imgs/login.png)
+<img src="imgs/login.png">
 
 4. Main Interface page
-![Main Interface page](imgs/mainINterface.png)
+<img src="imgs/mainINterface.png">
 
 5. User Profile Page
-![User Profile Page](imgs/profile.png)
+<img src="imgs/profile.png">
 
