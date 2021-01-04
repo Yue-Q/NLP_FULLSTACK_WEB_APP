@@ -10,7 +10,7 @@
 2. [How to run this project locally?](#install)
     1. [Build the UI](#install-ui)
     2. [Build the Service](#install-backend)
-    3. [Bundles](#bundle)
+    3. [Bundling](#bundle)
 3. [Illustration](#illu)
 
 
@@ -112,17 +112,17 @@ and run `python app.py` then visit http://localhost:5000 you will find the app u
 
 ## Illustration
 1. The home page
-![Home Page](./imgs/home.png)
+![Home Page](imgs/home.png)
 
 2. Sign up page
-![Signup Page](./imgs/signup.png)
+![Signup Page](imgs/signup.png)
 
 3. Log in page
-![login Page](./imgs/login.png)
+![login Page](imgs/login.png)
 
 4. Main Interface page
-![Main Interface page](./imgs/mainINterface.png)
+![Main Interface page](imgs/mainINterface.png)
 
 5. User Profile Page
-![User Profile Page](./imgs/profile.png)
+![User Profile Page](imgs/profile.png)
 
