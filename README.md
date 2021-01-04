@@ -68,4 +68,8 @@ To bundle the frontend app and move it to the `/public` folder which the Flask a
 **Now if you run npm run build inside `/webapp` folder then go up one directory
 and run `python app.py` then visit http://localhost:5000 you will find the app up and running**
 
-
+### Dependences
+1. **Material-UI**: The frontend stylings are supported by this library.
+2. **Formik**: The tables used to submit the register & login information are handled by the library **Fromik**
+3. **Yup**: The validation of the fileds: like the format of emial, phone number, display error messages
+4. **JWT**: A URL-safe means of representing claims to be transferred between two parties. Implement user authentication.
