@@ -12,3 +12,4 @@ uuid
 passlib
 pyjwt
 datetime
+pytest
