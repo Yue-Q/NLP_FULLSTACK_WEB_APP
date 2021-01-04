@@ -1,5 +1,29 @@
-# Singularity System Inc. Coding Project 
-## How to run this repo locally?
+# Singularity System Inc. Coding Project v.0.0.1
+
+## Web Application Architecture: Python Flask + React + Node + MongoDB
+
+### NLP classification pipeline
+In the previous ML project, we discuss how to process the natural language and implement the classification. You can refer to the Jupter Notebook *ML_Challange_Notebook.html* to see the feature engineering process and the final pipeline we generated.
+
+To encapsulate the whole model along with the training data in one single file to be used anywhere, we use `Pickle library`.
+```
+import pickle
+pickle.dump( pipeline, open( "pipeline.pkl", "wb" ) )
+```
+In this case we are pickling our pipeline object so we can use it later in the API to `pipeline.predict()`.
+
+This `pipeline.pkl` file is now ready to predict any news article and classify it to either REAL or FAKE. In the app web, the user can upload the text files and click on a button for the application to preprocess the input and feed it to the trained model and show the classification back on screen.
+
+### UI/Frontend: React
+This is a simple one page app built using React. There will be signup page, login page, NLP classification page, user profile pages.
+
+### Backend/Server: Flask
+Since we need to “unpickle” or `pickle.load()` our model (the pipeline) to use it, the best choice would be a python web server that can receive the input over HTTP and return back the prediction result. One of the easiest and most straightforward frameworks for this is [Flask](https://flask.palletsprojects.com/en/1.1.x/).
+
+### Database
+The project is supported with MongoDB to store the user's information. Here we use `pyMongod` to connect the server with MongoDB.
+
+## How to run this project locally?
 Clone the repo to your computer and go inside it and open two terminals here.
 
 ### Build the UI
@@ -43,4 +67,5 @@ To bundle the frontend app and move it to the `/public` folder which the Flask a
 ```
 **Now if you run npm run build inside `/webapp` folder then go up one directory
 and run `python app.py` then visit http://localhost:5000 you will find the app up and running**
+
 
