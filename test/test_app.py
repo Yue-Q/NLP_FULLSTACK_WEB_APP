@@ -56,4 +56,5 @@ def test_login(app, client):
 
     assert res.content_type == mimetype
     assert res.status_code == 200
-    assert json.loads(res.get_data(as_text=True))["result"]["email"] == "tom@gmail.com"
+    token = json.loads(res.get_data(as_text=True))["token"]
+

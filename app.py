@@ -1,10 +1,12 @@
+import jwt
 import uuid
 import pymongo
+import datetime
 from functools import wraps
 import pandas as pd
 from passlib.hash import pbkdf2_sha256
 # from predictionModel import PredictionModel
-from flask_jwt import JWT, jwt_required, current_identity
+import jwt
 from flask import Flask, jsonify, request, render_template, make_response, session, redirect
 
 app = Flask(__name__, static_folder="./public/static", template_folder="./public")
@@ -18,13 +20,24 @@ except:
     print("ERROR- Cannot connect to DB.")
 
 #Decorators
-def login_required(f):
+def token_required(f):
     @wraps(f)
     def wrap(*args, **kwargs):
-        if 'logged_in' in session:
-            return f(*args, **kwargs)
-        else:
-            return redirect('/')
+        token = None
+
+        if 'x-access-token' in request.headers:
+            token = request.headers['x-access-token']
+
+        if not token:
+            return jsonify({'message' : 'Token is missing!'}), 401
+
+        try: 
+            data = jwt.decode(token, app.secret_key)
+            current_user = db.users.find_One({"userName":data["userName"]})
+        except:
+            return jsonify({'message' : 'Token is invalid!'}), 401
+
+        return f(current_user, *args, **kwargs)
     return wrap
 
 ####################################
@@ -62,8 +75,12 @@ def signup():
         del user["_id"]
         session["logged_in"] = True
         session["user"] = user
+
+        payload = user
+        payload["exp"] = datetime.datetime.utcnow()+datetime.timedelta(minutes=2)
+        token = jwt.encode(payload,app.secret_key)
         
-        return jsonify({"result":user}),200
+        return jsonify({"token":token}),200
     except Exception as ex:
         print(ex)
         return jsonify({"error": "Signup faild"}),400
@@ -107,7 +124,12 @@ def login():
             del user["_id"]
             session["logged_in"] = True
             session["user"] = user
-            return jsonify({"result":user}),200
+
+            payload = user
+            payload["exp"] = datetime.datetime.utcnow()+datetime.timedelta(minutes=2)
+            token = jwt.encode(payload,app.secret_key)
+            print(token)
+            return jsonify({"token":token}),200
         return jsonify({ "error": "Invalid login credentials" }), 401
     except Exception as ex:
         print(ex)
@@ -115,13 +137,15 @@ def login():
 
 #log out
 @app.route("/user/logout")
+@token_required
 def logout():
         session.clear()
         return redirect('/')
 
 #reset password
 @app.route("/user/resetPassword", methods=['PATCH'])
-def resetPassword():
+@token_required
+def resetPassword(current_user):
     try:
         content = request.json
         newPassword = pbkdf2_sha256.hash(content["password"])
@@ -137,25 +161,23 @@ def resetPassword():
         print(ex)
         return jsonify({ "error": "Reset password failed" }), 401
 
-
-@app.route("/notebook")
-def notebook():
-    return render_template('Notebook.html')
-
 @app.route("/profile")
-@login_required
-def profile():
-    return render_template('profile.html')
+token_required
+def profile(current_user):
+    user = db.users.find_one({"_id":})
+    return jsonify({}),200
 
 
 @app.route('/predict', methods=['POST'])
-def predict():
+@token_required
+def predict(current_user):
     model = PredictionModel(request.json)
     return jsonify(model.predict())
 
 
 @app.route('/random', methods=['GET'])
-def random():
+token_required
+def random(current_user):
     data = pd.read_csv("data/fake_or_real_news_test.csv")
     index = randrange(0, len(data)-1, 1)
     return jsonify({'title': data.loc[index].title, 'text': data.loc[index].text})
