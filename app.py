@@ -121,16 +121,18 @@ def logout():
 
 #reset password
 @app.route("/user/resetPassword", methods=['PATCH'])
-@login_required
 def resetPassword():
     try:
         content = request.json
         newPassword = pbkdf2_sha256.hash(content["password"])
-        user = db.users.update_one(
+        res = db.users.update_one(
             {"userName": content['userName']},
             {"$set":{"password": newPassword}}
         )
-        return jsonify({"result": True }),200
+        if res.modified_count == 1:
+            return jsonify({"message":"user updated"}),200
+        else:
+            return jsonify({"message":"Nothing to update"}),200
     except Exception as ex:
         print(ex)
         return jsonify({ "error": "Reset password failed" }), 401
