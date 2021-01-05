@@ -11,7 +11,7 @@ import {
   TableRow,
   Paper
 } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { APIRequest } from '../utils';
 import Auth from '../modules/Auth.js';
 
