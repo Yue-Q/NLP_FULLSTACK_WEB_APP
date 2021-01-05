@@ -5,6 +5,8 @@ import Login from './components/login';
 import Signup from './components/signup.js';
 import NLPInterface from './components/NLPInterface';
 import Home from './components/home';
+import Profile from './components/profile';
+import ResetPassword from './components/resetPassword';
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
 
 
@@ -17,7 +19,8 @@ export default function App() {
             <Route exact path="/login" render={(props) => <Login {...props} />} />
             <Route exact path="/signup" render={(props) => <Signup {...props} />} />
             <PrivateRoute exact path="/predict" component={NLPInterface} />
-            {/* <Route path="/" render={(props) => <Home {...props} />} /> */}
+            <PrivateRoute exact path="/profile" component={Profile} />
+            <PrivateRoute exact path="/resetPassword" component={ResetPassword} />
             <Route path="/" render={(props) => <Home {...props} />} />
           </Switch>
     </Layout>
