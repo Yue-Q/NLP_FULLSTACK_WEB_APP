@@ -86,20 +86,6 @@ def test_login(app, client):
     assert error_msg == "Invalid login credentials"
     assert expected == data["userName"]
 
-def test_logout(app,client):
-    mimetype = 'application/json'
-    headers = {
-        'Content-Type': mimetype,
-        'Accept': mimetype
-    }
-    url = '/user/logout'
-
-    res = client.get(url, headers=headers)
-
-    assert res.content_type == mimetype
-    assert res.status_code == 401
-    assert json.loads(res.get_data(as_text=True))["message"] == "Token is missing!"
-
 ###################################
 #    Test tokend_required APIs    #
 ###################################
