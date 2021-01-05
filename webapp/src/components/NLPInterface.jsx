@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Pipeline } from '../pipeline'
+// import { Pipeline } from '../pipeline'
 import './index.scss';
-import Profile from './profile';
 import {Button, Container,Link} from '@material-ui/core';
 
 

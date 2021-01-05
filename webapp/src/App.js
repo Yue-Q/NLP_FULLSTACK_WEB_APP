@@ -6,7 +6,7 @@ import Signup from './components/signup.js';
 import NLPInterface from './components/NLPInterface';
 import Profile from './components/profile';
 import ResetPassword from './components/resetPassword';
-import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 
 
 

@@ -15,18 +15,6 @@ import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { APIRequest } from '../utils';
 import Auth from '../modules/Auth.js';
 
-const StyledButton = withStyles((theme) => ({
-  root: {
-    color: "white",
-    backgroundColor: '#ef3e3d',
-    borderRadius: '300px',
-    "&:hover": {
-      opacity: '0.5',
-      backgroundColor: '#ef3e3d'
-   },
-  }
-}))(Button);
-
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(5),
