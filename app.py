@@ -32,8 +32,14 @@ def token_required(f):
             return jsonify({'message' : 'Token is missing!'}), 401
 
         try: 
-            data = jwt.decode(token, app.secret_key)
-            current_user = db.users.find_One({"userName":data["userName"]})
+            jwt_options = {
+                'verify_signature': True,
+                'verify_exp': True,
+                'verify_nbf': False,
+                'verify_iat': True,
+                'verify_aud': False
+            }
+            current_user = jwt.decode(jwt=token, key=app.secret_key, algorithms=["HS256"], options=jwt_options)
         except:
             return jsonify({'message' : 'Token is invalid!'}), 401
 
@@ -73,12 +79,10 @@ def signup():
         #start session
         del user["password"]
         del user["_id"]
-        session["logged_in"] = True
-        session["user"] = user
 
         payload = user
         payload["exp"] = datetime.datetime.utcnow()+datetime.timedelta(minutes=2)
-        token = jwt.encode(payload,app.secret_key)
+        token = jwt.encode(payload=payload,key=app.secret_key,algorithm="HS256")
         
         return jsonify({"token":token}),200
     except Exception as ex:
@@ -122,13 +126,10 @@ def login():
         if user and pbkdf2_sha256.verify(content['password'], user['password']):
             del user["password"]
             del user["_id"]
-            session["logged_in"] = True
-            session["user"] = user
 
             payload = user
             payload["exp"] = datetime.datetime.utcnow()+datetime.timedelta(minutes=2)
-            token = jwt.encode(payload,app.secret_key)
-            print(token)
+            token = jwt.encode(payload=payload,key=app.secret_key,algorithm="HS256")
             return jsonify({"token":token}),200
         return jsonify({ "error": "Invalid login credentials" }), 401
     except Exception as ex:
@@ -139,18 +140,16 @@ def login():
 @app.route("/user/logout")
 @token_required
 def logout():
-        session.clear()
-        return redirect('/')
+    return redirect('/')
 
 #reset password
 @app.route("/user/resetPassword", methods=['PATCH'])
 @token_required
 def resetPassword(current_user):
     try:
-        content = request.json
         newPassword = pbkdf2_sha256.hash(content["password"])
         res = db.users.update_one(
-            {"userName": session['user']['userName']},
+            {"userName": current_user['userName']},
             {"$set":{"password": newPassword}}
         )
         if res.modified_count == 1:
@@ -161,13 +160,13 @@ def resetPassword(current_user):
         print(ex)
         return jsonify({ "error": "Reset password failed" }), 401
 
-@app.route("/profile")
-token_required
-def profile(current_user):
-    user = db.users.find_one({"_id":})
-    return jsonify({}),200
+#fetch user info
+@app.route("/user/fetchUserInfo")
+@token_required
+def fetchUserInfo(current_user):
+    return jsonify({"user":current_user}),200
 
-
+#predict uploaded file text
 @app.route('/predict', methods=['POST'])
 @token_required
 def predict(current_user):
@@ -175,12 +174,12 @@ def predict(current_user):
     return jsonify(model.predict())
 
 
-@app.route('/random', methods=['GET'])
-token_required
-def random(current_user):
-    data = pd.read_csv("data/fake_or_real_news_test.csv")
-    index = randrange(0, len(data)-1, 1)
-    return jsonify({'title': data.loc[index].title, 'text': data.loc[index].text})
+# @app.route('/random', methods=['GET'])
+# @token_required
+# def random(current_user):
+#     data = pd.read_csv("data/fake_or_real_news_test.csv")
+#     index = randrange(0, len(data)-1, 1)
+#     return jsonify({'title': data.loc[index].title, 'text': data.loc[index].text})
 
 # Only for local running
 if __name__ == '__main__':

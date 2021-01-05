@@ -104,7 +104,7 @@ export default function LogIn(props) {
               body: values,
             });
     const data = await res.json();
-    if(data.result){
+    if(data.token){
       Auth.signin();
       props.history.replace('/predict')
     }else if(data.error){
