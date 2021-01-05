@@ -49,7 +49,7 @@ Since we need to “unpickle” or `pickle.load()` our model (the pipeline) to u
 <a name="db"></a>
 
 ### Database
-The project is supported with MongoDB to store the user's information. Here we use `pyMongod` to connect the server with MongoDB.
+The project is supported by MongoDB to store the user's information. Here we use `pyMongo` to connect the server with MongoDB.
 
 <a name="depen"></a>
 
