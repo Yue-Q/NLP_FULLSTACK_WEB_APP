@@ -79,12 +79,15 @@ cd webapp
 ```
 npm install
 ```
+<img src="imgs/install1.PNG">
 
 3. You can check the UI by runnning the command 
 
 ```
 npm start
 ``` 
+
+<img src="imgs/install2.PNG">
 
 the browser should run on `localhost:3000`
 
@@ -98,12 +101,22 @@ On the second terminal, run the following commands:
 
 ```
 npm install virtualenv
+```
+<img src="imgs/install3.PNG">
+
+2. Generate the venv folder in the root directory by running the command:
+
+```
 virtualenv -p python venv
 ```
 
+<img src="imgs/install4.PNG">
+
+
 This command should build a new folder named *venv* in your project.
 
-2. Activate the virtual env:
+3. Activate the virtual env:
+
 ```
 #windows:
 source venv/Scripts/activate
@@ -111,16 +124,21 @@ source venv/Scripts/activate
 #Mac:
 #source venv/bin/activate
 ```
-3. The install all the required dependencies using pip after activating the environment. 
+<img src="imgs/install5.PNG">
+
+4. Then install all the required dependencies using pip after activating the environment. 
 ```
 pip install -r requirements.txt
 ```
+<img src="imgs/install6.PNG">
 
-4. Finally, we’ll run the Flask app.
+5. Finally, we’ll run the Flask app.
 ```
 FLASK_APP=app.py flask run
 ```
 This will start up the service on 127.0.0.1:5000.
+
+<img src="imgs/install8.PNG">
 
 <a name="bundle"></a>
 
@@ -143,6 +161,7 @@ In the root foldedr of the repo, run
 ```
 python -m pytest
 ```
+<img src="imgs/install9.PNG">
 
 
 <a name="further-steps"></a>
