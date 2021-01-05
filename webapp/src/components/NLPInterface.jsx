@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Pipeline } from '../pipeline'
-import axios from 'axios'; 
 import './index.scss';
 import Profile from './profile';
 import {Button, Container,Link} from '@material-ui/core';
@@ -29,28 +28,6 @@ export default class NLPInterface extends React.Component {
     // Update the state 
     this.setState({ selectedFile: event.target.files[0] }); 
     reader.readAsText(file);
-  }; 
-
-  // On file upload (click the upload button) 
-  onFileUpload = () => { 
-     
-    // Create an object of formData 
-    const formData = new FormData(); 
-   
-    // Update the formData object 
-    formData.append( 
-      "myFile", 
-      this.state.selectedFile, 
-      this.state.selectedFile.name,
-      this.state.selectedFile.file,
-    ); 
-   
-    // Details of the uploaded file 
-    console.log(this.state.selectedFile.file); 
-   
-    // Request made to the backend api 
-    // Send formData object 
-    axios.post("api/uploadfile", formData); 
   }; 
 
   // File content to be displayed after 

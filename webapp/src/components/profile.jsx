@@ -13,7 +13,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { APIRequest } from '../utils';
-import axios from 'axios';
 import Auth from '../modules/Auth.js';
 
 const StyledButton = withStyles((theme) => ({
