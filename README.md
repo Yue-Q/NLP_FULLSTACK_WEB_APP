@@ -13,6 +13,7 @@
     1. [Build the UI](#install-ui)
     2. [Build the Service](#install-backend)
     3. [Bundling](#bundle)
+3. [Further Steps](#further-steps)
 
 
 
@@ -110,5 +111,9 @@ To bundle the frontend app and move it to the `/public` folder which the Flask a
 **Now if you run npm run build inside `/webapp` folder then go up one directory
 and run `python app.py` then visit http://localhost:5000 you will find the app up and running**
 
-<a name="illu"></a>
+<a name="further-steps"></a>
+There are several steps work in progress:
+1. Hook up the prefict function with frontend
+2. User auto logout after 2 minutes
+3. Deploy the app
 
