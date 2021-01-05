@@ -50,14 +50,14 @@ const useStyles = makeStyles((theme) => ({
       }
     }
   },
-  button: {
-    root:{
-      "&hover": {
-        opacity: 0.3,
-          backgroundColor: '#ef3e3d'
-      }
-    }
-  }
+  errorLink: {
+    "&:hover": {
+        color: "red",
+        cursor: "context-menu",
+    },
+    fontWeight: 600,
+    textDecoration: 'underline'
+  },
   
 }));
 
@@ -336,7 +336,7 @@ export default function Signup(props) {
                             state: { from }
                           }} 
                           variant="body2" 
-                          className={classes.link}>
+                          className={classes.errorLink}>
                           {"Already have an account? Sign In!"}
                         </MUILink>
                       </Grid>
