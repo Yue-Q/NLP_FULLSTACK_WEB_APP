@@ -111,18 +111,4 @@ and run `python app.py` then visit http://localhost:5000 you will find the app u
 <a name="illu"></a>
 
 ## Illustration
-1. The home page
-<img src="imgs/home.PNG">
-
-2. Sign up page
-<img src="imgs/signup.PNG">
-
-3. Log in page
-<img src="imgs/login.PNG">
-
-4. Main Interface page
-<img src="imgs/mainINterface.PNG">
-
-5. User Profile Page
-<img src="imgs/profile.PNG">
-
+![Illustration](imgs/illustra.gif)
