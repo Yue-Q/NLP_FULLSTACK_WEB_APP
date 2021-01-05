@@ -1,5 +1,11 @@
 import React from 'react';
-import { Button, Link as MUILink, Grid, Box, Typography, Container } from '@material-ui/core';
+import { 
+  Button, 
+  Link as MUILink, 
+  Grid, 
+  Box, 
+  Typography, 
+  Container } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { TextField } from 'formik-material-ui';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
@@ -151,7 +157,7 @@ export default function Signup(props) {
     }
 
   return (
-    <Container maxWidth="xs" className={classes.paper}>
+    <Container maxWidth="md" className={classes.paper}>
         <SignupFormHeader className={classes.formTitle}/>
 
         <Formik
@@ -187,43 +193,62 @@ export default function Signup(props) {
                 <Fade bottom cascade>
                   <div>
                 <Box margin={2}>
-                  <Field
-                    component={TextField}
-                    variant="outlined"
-                    name="firstName"
-                    type="text"
-                    label="First Name"
-                    placeholder="Tom"
-                    autoFocus
-                    fullWidth
-                  />
-                </Box>
-                <Box margin={2}>
-                  <Field
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={4}>
+                    <Field
                       component={TextField}
                       variant="outlined"
-                      name="middleName"
+                      name="firstName"
                       type="text"
-                      label="Middle Name"
-                      placeholder="M."
+                      label="First Name"
+                      placeholder="Tom"
+                      autoFocus
                       fullWidth
                     />
-                </Box>
+                  </Grid>
+               
+                  <Grid item xs={12} sm={4}>
+                    <Field
+                        component={TextField}
+                        variant="outlined"
+                        name="middleName"
+                        type="text"
+                        label="Middle Name"
+                        placeholder="M."
+                        fullWidth
+                      />
+                  </Grid>  
                 
-                <Box margin={2}>
-                  <Field
-                    component={TextField}
-                    variant="outlined"
-                    name="lastName"
-                    type="text"
-                    label="Last Name"
-                    placeholder="Smith"
-                    fullWidth
-                  />
-                </Box>
+                  <Grid item xs={12} sm={4}>
+                    <Field
+                      component={TextField}
+                      variant="outlined"
+                      name="lastName"
+                      type="text"
+                      label="Last Name"
+                      placeholder="Smith"
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+                </Box> 
 
                 {/* {isSubmitting && <LinearProgress />} */}
                 <Box margin={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={4}>
+                  <Field
+                    component={TextField}
+                    variant="outlined"
+                    type="text"
+                    label="Occupation"
+                    name="occupation"
+                    placeholder="Student"
+                    fullWidth
+                  />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={4}>
                   <Field
                     component={TextField}
                     variant="outlined"
@@ -234,9 +259,9 @@ export default function Signup(props) {
                     fullWidth
                     validate={validateEmail}
                   />
-                </Box>
+                  </Grid>
 
-                <Box margin={2}>
+                  <Grid item xs={12} sm={4}>
                   <Field
                     component={TextField}
                     variant="outlined"
@@ -246,6 +271,8 @@ export default function Signup(props) {
                     placeholder="9018970908"
                     fullWidth
                   />
+                </Grid>
+                </Grid>
                 </Box>
 
                 <Box margin={2}>
@@ -260,19 +287,11 @@ export default function Signup(props) {
                   />
                 </Box>
 
-                <Box margin={2}>
-                  <Field
-                    component={TextField}
-                    variant="outlined"
-                    type="text"
-                    label="Occupation"
-                    name="occupation"
-                    placeholder="Student"
-                    fullWidth
-                  />
-                </Box>
+                
 
                 <Box margin={2}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
                   <Field
                     component={TextField}
                     variant="outlined"
@@ -283,9 +302,9 @@ export default function Signup(props) {
                     validate={validateUsername}
                     fullWidth
                   />
-                </Box>
-
-                <Box margin={2}>
+                  </Grid>
+                
+                  <Grid item xs={12} sm={6}>
                   <Field
                     component={TextField}
                     variant="outlined"
@@ -294,6 +313,8 @@ export default function Signup(props) {
                     name="password"
                     fullWidth
                   />
+                  </Grid>
+                  </Grid>
                 </Box>
                 
                     <StyledButton
