@@ -112,7 +112,7 @@ export default class NLPInterface extends React.Component {
     return (
       <Container component="main" maxWidth="xs">
         
-        <h1><Link href="/profile">Welcome!</Link></h1>
+        <h1><Link onClick={() => this.props.history.push("/profile")}>Go to profile page</Link></h1>
         <h1>NLP Fake News Classifier</h1>
         <h3>Step 1. Upload your text file:</h3>
           <Button variant="contained" component="label" color="primary" style={{marginRight:"10px", marginBottom: "10px"}}>Upload File
