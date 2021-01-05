@@ -133,9 +133,12 @@ export default function LogIn(props) {
             </Typography>
             <Formik
             initialValues={{
-            userName: '',
-            password: '',
+              userName: '',
+              password: '',
             }}
+
+            validateOnChange={false}
+            validateOnBlur={false}
     
             onSubmit={async (values, {setSubmitting}) => {
               setTimeout(() => {
