@@ -147,6 +147,7 @@ def logout():
 @token_required
 def resetPassword(current_user):
     try:
+        content = request.json
         newPassword = pbkdf2_sha256.hash(content["password"])
         res = db.users.update_one(
             {"userName": current_user['userName']},

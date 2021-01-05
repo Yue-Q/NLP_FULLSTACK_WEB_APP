@@ -128,8 +128,37 @@ def test_fetchUserInfo(app, client):
     
     url = '/user/fetchUserInfo'
     res = client.get(url, headers=headers)
-    expected = json.loads(res.get_data(as_text=True))["user"]["userName"]
+    expected = user["userName"]
      
     assert res.content_type == mimetype
     assert res.status_code == 200
-    assert expected == user["userName"]
+    assert expected == json.loads(res.get_data(as_text=True))["user"]["userName"]
+
+def test_resetPassword(app, client):
+    mimetype = 'application/json'
+    user = {
+        "userName":"test1"
+    }
+
+    payload = user
+    payload["exp"] = datetime.datetime.utcnow()+datetime.timedelta(minutes=2)
+    token = jwt.encode(payload=payload,key=app.secret_key,algorithm="HS256")
+
+    headers = {
+        'Content-Type': mimetype,
+        'Accept': mimetype,
+        'x-access-token': token
+    }
+    
+    url = '/user/resetPassword'
+    body = {"password":"new password"}
+    res = client.patch(url, data=json.dumps(body), headers=headers)
+    expected = "user updated"
+     
+    assert res.content_type == mimetype
+    assert res.status_code == 200
+    assert expected == json.loads(res.get_data(as_text=True))["message"]
+
+    body_2 = {"password":"test1"}
+    res_2 = client.patch(url, data=json.dumps(body_2), headers=headers)
+    assert res_2.status_code == 200
