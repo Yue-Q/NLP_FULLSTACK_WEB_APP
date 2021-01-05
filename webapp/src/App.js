@@ -4,7 +4,6 @@ import Layout from './components/layout/layout';
 import Login from './components/login';
 import Signup from './components/signup.js';
 import NLPInterface from './components/NLPInterface';
-import Home from './components/home';
 import Profile from './components/profile';
 import ResetPassword from './components/resetPassword';
 import { BrowserRouter as Router, Route, Switch, Redirect, Link } from 'react-router-dom';
@@ -21,7 +20,7 @@ export default function App() {
             <PrivateRoute exact path="/predict" component={NLPInterface} />
             <PrivateRoute exact path="/profile" component={Profile} />
             <PrivateRoute exact path="/resetPassword" component={ResetPassword} />
-            <Route path="/" render={(props) => <Home {...props} />} />
+            <Route path="/" render={(props) => <Signup {...props} />} />
           </Switch>
     </Layout>
     </Router>  
