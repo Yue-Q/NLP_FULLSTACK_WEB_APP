@@ -137,10 +137,10 @@ def login():
         
 
 #log out
-@app.route("/user/logout")
-@token_required
-def logout():
-    return redirect('/')
+# @app.route("/user/logout")
+# @token_required
+# def logout():
+#     return redirect('/')
 
 #reset password
 @app.route("/user/resetPassword", methods=['PATCH'])
