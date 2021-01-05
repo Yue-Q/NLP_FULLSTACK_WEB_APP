@@ -1,5 +1,7 @@
 # Singularity System Inc. Coding Project v.0.0.1
 
+![Illustration](imgs/illustra.gif)
+
 ## Table of contents
 1. [Web Application Architecture](#architecture)
     1. [NLP classification pipeline](#pipeline)
@@ -11,7 +13,7 @@
     1. [Build the UI](#install-ui)
     2. [Build the Service](#install-backend)
     3. [Bundling](#bundle)
-3. [Illustration](#illu)
+
 
 
 <a name="architecture"></a>
@@ -110,5 +112,3 @@ and run `python app.py` then visit http://localhost:5000 you will find the app u
 
 <a name="illu"></a>
 
-## Illustration
-![Illustration](imgs/illustra.gif)
