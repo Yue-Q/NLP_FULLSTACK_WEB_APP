@@ -66,18 +66,25 @@ const CustomizedTableRow = (props) => {
 
 export default function Profile(props) {  
   const classes = useStyles();
-  const [user, setUser] = useState(null);
- 
-  useEffect(() => {
-    (async () => {
+  const [user, setUser] = useState({});
+
+  const getUserInfo = async () => {
+    try {
       const res = await APIRequest({
-        url: `/user/fetchUserInfo`,
+        url: '/user/fetchUserInfo',
         method: "GET",
         token: Auth.getToken()
       });
       const data = await res.json();
+      console.log(data.user);
       setUser(data.user);
-    })();
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
+ 
+  useEffect(() => {
+    getUserInfo();
   },[]);
   // const [user, setUser] = useState({
   //   userName:"test1",
