@@ -5,9 +5,8 @@ pandas>=0.23.4
 gunicorn>=19.9.0
 scikit-learn>=0.20.1
 eventlet>=0.25.1
-functools
 dnspython
-pymongod
+pymongo
 uuid
 passlib
 pyjwt
