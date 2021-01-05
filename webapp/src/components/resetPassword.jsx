@@ -89,6 +89,7 @@ export default function ResetPassword(props) {
     const data = await res.json();
     if(data.message){
       alert(data.message)
+      props.history.push("/profile")
     }else if(data.error){
       alert(data.error)
     }
