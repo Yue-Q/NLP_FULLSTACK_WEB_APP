@@ -66,26 +66,28 @@ const CustomizedTableRow = (props) => {
 
 export default function Profile(props) {  
   const classes = useStyles();
-  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
  
-  // useEffect(async () => {
-  //   const res = await APIRequest({
-  //     url: `/user/fetchUserInfo`,
-  //     method: "GET",
-  //     token: Auth.getToken()
-  //   });
-  //   const data = await res.json();
-  //   setUser(data.user);
-  // },[]);
-  const [user, setUser] = useState({
-    userName:"test1",
-    firstName:"Yue",
-    middleName:"M.",
-    lastName:"Qiu",
-    occupation:"Student",
-    email:"test@gamil.com",
-    mailAddress:"995 Jefferson Commons Circle"
-  });
+  useEffect(() => {
+    (async () => {
+      const res = await APIRequest({
+        url: `/user/fetchUserInfo`,
+        method: "GET",
+        token: Auth.getToken()
+      });
+      const data = await res.json();
+      setUser(data.user);
+    })();
+  },[]);
+  // const [user, setUser] = useState({
+  //   userName:"test1",
+  //   firstName:"Yue",
+  //   middleName:"M.",
+  //   lastName:"Qiu",
+  //   occupation:"Student",
+  //   email:"test@gamil.com",
+  //   mailAddress:"995 Jefferson Commons Circle"
+  // });
 
 
   return (
