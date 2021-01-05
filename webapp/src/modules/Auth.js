@@ -1,14 +1,18 @@
 class Auth {
-  static signin(user) {
-    localStorage.setItem('logged_in', true);
+  static signin(token) {
+    localStorage.setItem('token', token);
   }
 
   static isUserAuthenticated() {
-    return localStorage.getItem('logged_in');
+    return localStorage.getItem('token') !== null;
   }
 
   static signout() {
-    localStorage.setItem('logged_in', false);
+    localStorage.removeItem('token');
+  }
+
+  static getToken() {
+    return localStorage.getItem('token');
   }
 
 }

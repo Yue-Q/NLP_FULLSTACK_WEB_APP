@@ -145,7 +145,7 @@ export default function Signup(props) {
       });
       const data = await res.json();
       if(data.token){
-        Auth.signin();
+        Auth.signin(data.token);
         props.history.replace('/predict')
       }
     }
