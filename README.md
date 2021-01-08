@@ -116,7 +116,9 @@ This command should build a new folder named *venv* in your project.
 
 You may meet the error message
 
-<img src="imgs/error.PNG">
+```
+[Errno 2] No such file or directory: 'C:\\Program Files\\Python37\\lib\\venv\\scripts\\nt\\python_d.exe'
+```
 
 Please refer to this [stack-overflow solution](https://stackoverflow.com/questions/55380296/how-to-fix-error-errno-2-no-such-file-or-directory-c-program-files-pytho) to solve the problem.
 
