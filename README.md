@@ -112,8 +112,13 @@ virtualenv -p python venv
 
 <img src="imgs/install4.PNG">
 
-
 This command should build a new folder named *venv* in your project.
+
+You may meet the error message
+
+<img src="imgs/error.PNG">
+
+Please refer to this [stack-overflow solution](https://stackoverflow.com/questions/55380296/how-to-fix-error-errno-2-no-such-file-or-directory-c-program-files-pytho) to solve the problem.
 
 3. Activate the virtual env:
 
@@ -139,6 +144,12 @@ FLASK_APP=app.py flask run
 This will start up the service on 127.0.0.1:5000.
 
 <img src="imgs/install8.PNG">
+
+If you meet the error message:
+```
+ImportError: DLL load failed while importing _sqlite3: The specified module could not be found.
+```
+please refer to this [stack-over flow](https://stackoverflow.com/questions/54876404/unable-to-import-sqlite3-using-anaconda-python) to solive this problem.
 
 <a name="bundle"></a>
 
