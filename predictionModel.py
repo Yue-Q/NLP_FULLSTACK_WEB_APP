@@ -1,12 +1,28 @@
 # preprocessing
+import os
+import re
+import string
+import logging
+import itertools
+import numpy as np
+import pandas as pd
+from time import time
+import collections
+
+import nltk
+from nltk import sent_tokenize
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem.snowball import SnowballStemmer
+from nltk.stem import WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+
+
 import timeit
 from nltk.stem import WordNetLemmatizer
 from nltk import pos_tag
-from nltk.corpus import stopwords
-from nltk.corpus import wordnet
 import _pickle as pickle
 import string
-import nltk
 nltk.data.path.append('./nltk_data')
 
 start = timeit.default_timer()
@@ -26,62 +42,108 @@ class PredictionModel:
     def predict(self):
 
         self.preprocess()
-        self.pos_tag_words()
+        
+        # preprocessed data
+        preprocessed_test_data = self.output['preprocessed']
+        #[0]?
+        pred = pipeline.predict(preprocessed_test_data)[0]
 
-        # Merge text
-        clean_and_pos_tagged_text = self.output['preprocessed'] + \
-            ' ' + self.output['pos_tagged']
+        target_names_dict = {0: 'alt.atheism',
+							 1: 'comp.graphics',
+							 2: 'comp.os.ms-windows.misc',
+							 3: 'comp.sys.ibm.pc.hardware',
+							 4: 'comp.sys.mac.hardware',
+							 5: 'comp.windows.x',
+							 6: 'misc.forsale',
+							 7: 'rec.autos',
+							 8: 'rec.motorcycles',
+							 9: 'rec.sport.baseball',
+							 10: 'rec.sport.hockey',
+							 11: 'sci.crypt',
+							 12: 'sci.electronics',
+							 13: 'sci.med',
+							 14: 'sci.space',
+							 15: 'soc.religion.christian',
+							 16: 'talk.politics.guns',
+							 17: 'talk.politics.mideast',
+							 18: 'talk.politics.misc',
+							 19: 'talk.religion.misc'}
 
-        self.output['prediction'] = 'FAKE' if pipeline.predict(
-            [clean_and_pos_tagged_text])[0] == 0 else 'REAL'
+        self.output['prediction'] = np.array([target_names_dict[k] for k in pred])
 
         return self.output
 
-    # Helper methods
+    # Preprocess
     def preprocess(self):
         # lowercase the text
-        text = self.output['original'].lower()
+        test_data = self.output['original']
+        test_data = self.strip_header_footer_quotes(test_data)
+        test_data = self.generate_data_nltk(train_data)
 
-        # remove the words counting just one letter
-        text = [t for t in text.split(" ") if len(t) > 1]
+        self.output['preprocessed'] = test_data
 
-        # remove the words that contain numbers
-        text = [word for word in text if not any(c.isdigit() for c in word)]
 
-        # tokenize the text and remove puncutation
-        text = [word.strip(string.punctuation) for word in text]
+	# Helper methods
+    def corpus(text):
+    
+	    from nltk.tokenize import word_tokenize
+	    tokens = word_tokenize(text)
+	    
+	    # convert to lower case
+	    tokens = [w.lower() for w in tokens]
+	    
+	    # remove punctuation from each word
+	    import string
+	    table = str.maketrans('', '', string.punctuation)
+	    stripped = [w.translate(table) for w in tokens]
+	    
+	    # remove remaining tokens that are not alphabetic
+	    words = [word for word in stripped if word.isalpha()]
+	    
+	    # filter out stop words
+	    from nltk.corpus import stopwords
+	    stop_words = set(stopwords.words('english'))
+	    words = [w for w in words if not w in stop_words]
+	    return words   
 
-        # remove all stop words
-        stop = stopwords.words('english')
-        text = [x for x in text if x not in stop]
 
-        # remove tokens that are empty
-        text = [t for t in text if len(t) > 0]
 
-        # pos tag the text
-        pos_tags = pos_tag(text)
+    def generate_data_nltk(dataList):
 
-        # lemmatize the text
-        text = [WordNetLemmatizer().lemmatize(t[0], self.get_wordnet_pos(t[1]))
-                for t in pos_tags]
+	    corpus_dict_list = [corpus(text) for text in dataList]
+	    processed_data = [" ".join(corpus) for corpus in corpus_dict_list]
+	       
+	    return(processed_data)   
 
-        # join all
-        self.output['preprocessed'] = " ".join(text)
+    def strip_newsgroup_header(text):
+    
+	    _before, _blankline, after = text.partition('\n\n')
+	    return after
 
-    def get_wordnet_pos(self, pos_tag):
-        if pos_tag.startswith('J'):
-            return wordnet.ADJ
-        elif pos_tag.startswith('V'):
-            return wordnet.VERB
-        elif pos_tag.startswith('N'):
-            return wordnet.NOUN
-        elif pos_tag.startswith('R'):
-            return wordnet.ADV
-        else:
-            return wordnet.NOUN
+	def strip_newsgroup_footer(text):
+    
+	    lines = text.strip().split('\n')
+	    for line_num in range(len(lines) - 1, -1, -1):
+	        line = lines[line_num]
+	        if line.strip().strip('-') == '':
+	            break
 
-    def pos_tag_words(self):
-        pos_text = nltk.pos_tag(
-            nltk.word_tokenize(self.output['preprocessed']))
-        self.output['pos_tagged'] = " ".join(
-            [pos + "-" + word for word, pos in pos_text])
+	    if line_num > 0:
+	        return '\n'.join(lines[:line_num])
+	    else:
+	        return text
+
+	def strip_newsgroup_quoting(text):
+	    
+	    _QUOTE_RE = re.compile(r'(writes in|writes:|wrote:|says:|said:'
+	                       r'|^In article|^Quoted from|^\||^>)')
+	    good_lines = [line for line in text.split('\n')
+	                  if not _QUOTE_RE.search(line)]
+	    return '\n'.join(good_lines)
+
+	def strip_header_footer_quotes(data):
+	    
+	    data = [strip_newsgroup_header(text) for text in data]
+	    data = [strip_newsgroup_footer(text) for text in data]
+	    data = [strip_newsgroup_quoting(text) for text in data]
+	    return data   

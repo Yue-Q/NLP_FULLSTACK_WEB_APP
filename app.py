@@ -5,8 +5,7 @@ import datetime
 from functools import wraps
 import pandas as pd
 from passlib.hash import pbkdf2_sha256
-# from predictionModel import PredictionModel
-import jwt
+from predictionModel import PredictionModel
 from flask import Flask, jsonify, request, render_template, make_response, session, redirect
 
 app = Flask(__name__, static_folder="./public/static", template_folder="./public")
@@ -171,16 +170,9 @@ def fetchUserInfo(current_user):
 @app.route('/predict', methods=['POST'])
 @token_required
 def predict(current_user):
-    model = PredictionModel(request.json)
+    test_data = request.json
+    model = PredictionModel(test_data)
     return jsonify(model.predict())
-
-
-# @app.route('/random', methods=['GET'])
-# @token_required
-# def random(current_user):
-#     data = pd.read_csv("data/fake_or_real_news_test.csv")
-#     index = randrange(0, len(data)-1, 1)
-#     return jsonify({'title': data.loc[index].title, 'text': data.loc[index].text})
 
 # Only for local running
 if __name__ == '__main__':
